@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 
 // routes
 const userRouter = require("./routes/user.route");
@@ -12,6 +13,7 @@ DBConnect();
 
 app.use(express.json());
 app.use(cors());
+app.use(cookieParser());
 
 app.use("/api/auth", userRouter);
 
