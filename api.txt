@@ -1,0 +1,15 @@
+/api/auth/register -> POST
+{
+    username: "",
+    email: "",
+    password: "",
+    role: "",
+}
+
+
+/api/auth/login -> POST
+{
+    email: "",
+    password: "",
+    role: "",
+}
