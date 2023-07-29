@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 function DBConnect() {
   mongoose
-    .connect("mongodb://localhost:27017/opju-exam-portal", {
+    .connect("mongodb://127.0.0.1:27017/opju-exam-portal", {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })
