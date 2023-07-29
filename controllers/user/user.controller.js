@@ -10,7 +10,7 @@ const { registerUserInDatabase, generateUserToken } = require("./utils");
 function registerUser(req, res) {
   const { value, error } = validateProblemSetter(req.body);
 
-  if (error) res.status(400).json({ message: error.details[0].message });
+  if (error) return res.status(400).json({ message: error.details[0].message });
 
   switch (value.role.toLowerCase()) {
     case "problemsetter":
