@@ -1,15 +1,20 @@
-/api/auth/register -> POST
-{
-    username: "",
-    email: "",
-    password: "",
-    role: "",
-}
+for same (program ,stream , course, topic,questionType) is there any possibilities that a multiple program for multiple dates? 
 
-
-/api/auth/login -> POST
-{
-    email: "",
-    password: "",
-    role: "",
-}
+ex: 
+[
+  {  "id": 1,
+    "program": "Btech",
+    "stream": "CSE",
+    "course": "Db",
+    "topic": "schema",
+    "questionType": "True false", 
+  },
+  {
+    "id": 2,
+    "program": "Btech",
+    "stream": "CSE",
+    "course": "Db",
+    "topic": "schema",
+    "questionType": "True false"  
+  }
+]

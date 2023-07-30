@@ -1,0 +1,22 @@
+[
+  {  "id": 1,
+    "program": "Btech",
+    "stream": "CSE",
+    "course": "Db",
+    "topic": "schema",
+    "questionType": "True false",
+    "date & time":
+    
+    
+  },
+  {
+    "id": 2,
+    "program": "Mtech",
+    "stream": "CSE",
+    "course": "Db",
+    "topic": "schema",
+    "questionType": "True false"
+    
+    
+  }
+]
