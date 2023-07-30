@@ -89,7 +89,7 @@ const generateUserToken = async (userModel, user, res) => {
     res
       .status(200)
       .cookie("set_token", token, options)
-      .json({ success: true, token, user });
+      .json({ success: true, token, user, message: "Logged in successfully" });
   } catch (err) {
     return res.status(500).json({ message: "Server Error", err });
   }
