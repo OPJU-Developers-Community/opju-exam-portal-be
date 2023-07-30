@@ -11,7 +11,9 @@ async function createProgram(req, res) {
   try {
     const newProgram = new Program(req.body);
     await newProgram.save();
-    res.status(201).json({ message: "Program successfully created" });
+    res
+      .status(201)
+      .json({ message: "Program successfully created", data: newProgram });
   } catch (err) {
     return res.status(500).json({ message: "Failed to create program", err });
   }

@@ -3,7 +3,9 @@ const createProgram = require("../controllers/program/program.controller");
 
 const router = express.Router();
 
+// create program
 router.post("/create-program", createProgram);
-router.post("/create-question", () => {});
+// edit program
+// delete program
 
-module.exports = router
+module.exports = router;
