@@ -1,0 +1,17 @@
+[
+  {
+    "qid": 1,
+    "title": "schema",
+    "options": ["True", "False"],
+    "answer": "True"
+  },
+  { "qid": 1, "title": "Db", "options": ["True", "False"], "answer": "True" },
+
+  {
+    "qid": 2,
+    "title": "schema",
+    "options": ["True", "False"],
+    "answer": "True"
+  },
+  { "qid": 2, "title": "Db", "options": ["True", "False"], "answer": "True" }
+]
