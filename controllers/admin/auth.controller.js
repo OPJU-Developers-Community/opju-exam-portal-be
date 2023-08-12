@@ -69,7 +69,59 @@ async function adminSignup(req, res) {
     return res.status(500).json({ message: "Failed to register user", err });
   }
 }
+async function adminLogin(req, res) {
+  const { value, error } = validateAdminLogin(req.body);
+
+  if (error) return res.status(400).json({ message: error.details[0].message });
+
+  const { email, password } = value;
+
+  try {
+    const existingUser = await AdminAuth.findOne({ email });
+
+    // function get terminate after return statement
+    if (!existingUser)
+      return res.status(401).json({ message: `${email} not found` });
+
+    const isPasswordValid = await bcrypt.compare(
+      password,
+      existingUser.password
+    );
+
+    if (!isPasswordValid)
+      return res.status(401).json({ message: "Password Invalid" });
+
+    const token = jwt.sign(
+      {
+        userId: existingUser._id,
+        username: existingUser.username,
+      },
+      process.env.SECRET_KEY
+    );
+
+    const options = {
+      expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+      httpOnly: true,
+    };
+    const response = {
+      message: "Logged in successfully",
+      data: {
+        username: existingUser.username,
+        email: existingUser.email,
+        token,
+      },
+    };
+    res
+      .status(200)
+      .cookie("set_token", token, options)
+      .json({ success: true, response });
+  } catch (err) {
+    return res.status(500).json({ message: "Failed to login user", err });
+  }
+}
 
 module.exports = {
   adminSignup,
+  adminLogin,
 };
+
