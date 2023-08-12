@@ -69,6 +69,8 @@ async function adminSignup(req, res) {
     return res.status(500).json({ message: "Failed to register user", err });
   }
 }
+
+
 async function adminLogin(req, res) {
   const { value, error } = validateAdminLogin(req.body);
 
