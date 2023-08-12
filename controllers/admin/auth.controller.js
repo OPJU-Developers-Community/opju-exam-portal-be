@@ -53,7 +53,7 @@ async function adminSignup(req, res) {
 
     // create a object for response to client
     const response = {
-      message: "",
+      message: "Signup successfully",
       data: {
         username: newUser.username,
         email: newUser.email,
