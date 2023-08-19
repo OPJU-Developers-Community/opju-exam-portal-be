@@ -64,12 +64,11 @@ async function adminSignup(req, res) {
     res
       .status(200)
       .cookie("set_token", token, options)
-      .json({ success: true, response });
+      .json({ success: true, ...response });
   } catch (err) {
     return res.status(500).json({ message: "Failed to register user", err });
   }
 }
-
 
 async function adminLogin(req, res) {
   const { value, error } = validateAdminLogin(req.body);
@@ -126,4 +125,3 @@ module.exports = {
   adminSignup,
   adminLogin,
 };
-
