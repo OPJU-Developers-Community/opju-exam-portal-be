@@ -12,6 +12,6 @@ const router = express.Router();
 
 router.post("/signup", adminSignup);
 router.post("/login", adminLogin);
-router.route("/add-user-management").post(addUser).get(getUser);
+router.route("/user-management").post(addUser).get(getUser);
 
 module.exports = router;
