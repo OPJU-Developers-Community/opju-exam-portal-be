@@ -11,6 +11,7 @@ const optionsController = require("../controllers/admin/educationType.controller
 const {
   createEducation, getEducation,
 } = require("../controllers/admin/educationmanagement.controller");
+const getOptions = require("../controllers/admin/educationType.controller");
 
 const router = express.Router();
 
@@ -29,6 +30,6 @@ router
   .post(createEducation)
   .get(getEducation);
 
-router.get("/education-type", optionsController.getOptions);
+router.get("/education-type", getOptions);
 
 module.exports = router;

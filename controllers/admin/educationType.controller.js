@@ -1,6 +1,12 @@
-const Option = require('../../models/admin/educationType.model');
+const Option = require("../../models/admin/educationType.model");
 
-exports.getOptions = (req, res) => {
-  const options = Option.getSchoolAndUniversityOptions();
-  res.json(options);
-};
+async function getOptions(req, res) {
+  try {
+    const data = await Option.find({})
+    res.status(200).json({ message: "success", data });
+  } 
+  catch (error) {
+    return res.status(500).json({message: "Internal Server Error!"});
+  }
+}
+module.exports = getOptions;
