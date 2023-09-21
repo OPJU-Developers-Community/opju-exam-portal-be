@@ -1,5 +1,4 @@
 const bcrypt = require("bcrypt");
-const { excludeProperty } = require("../../../utils");
 
 async function addUserToDB(req, res, data, model, validate) {
   const { value, error } = validate(data);
