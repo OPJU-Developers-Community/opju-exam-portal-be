@@ -19,7 +19,6 @@ app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
 
-app.use("/", { message: "You are up and running...." });
 app.use("/api/admin", adminRouter);
 
 // app.use("/api/auth", userRouter);
