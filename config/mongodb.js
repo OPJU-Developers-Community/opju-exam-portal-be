@@ -1,8 +1,11 @@
 const mongoose = require("mongoose");
+require("dotenv").config();
+
+const uri = `mongodb+srv://${process.env.ATLAS_USER}:${process.env.ATLAS_PASSWORD}@opju-exam-portal.hevosn5.mongodb.net/?retryWrites=true&w=majority`;
 
 function DBConnect() {
   mongoose
-    .connect("mongodb://127.0.0.1:27017/opju-exam-portal", {
+    .connect(uri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })
