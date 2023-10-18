@@ -62,15 +62,27 @@ async function getUsersFromDB(req, res, model) {
   const { type } = req.query;
 
   try {
-    const users = await model.find({ role: type }).select("-password");
+    if (type === "all") {
+      const users = await model.find({}).select("-password");
+      
+      const response = {
+        message: "success",
+        data: users,
+      }
 
-    // create a object for response to client
-    const response = {
-      message: "success",
-      data: users,
-    };
+      res.status(200).json({ success: true, ...response });
 
-    res.status(200).json({ success: true, ...response });
+    } else {
+      const users = await model.find({ role: type }).select("-password");
+  
+      // create a object for response to client
+      const response = {
+        message: "success",
+        data: users,
+      };
+  
+      res.status(200).json({ success: true, ...response });
+    }
   } catch (err) {
     return res.status(500).json("Internal Server Error!");
   }
