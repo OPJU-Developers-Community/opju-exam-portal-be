@@ -27,7 +27,7 @@ describe("Signup route", () => {
       success: testResponse.success,
     };
 
-    expect(response.statusCode).toBe(200);
+    expect(response.statusCode).toBe(201);
     expect(response.body).toEqual(expectedResponse);
   });
 });
