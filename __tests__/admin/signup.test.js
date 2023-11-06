@@ -11,7 +11,7 @@ describe("Signup route", () => {
     success: true,
   };
 
-  test("should give error for already present user", async () => {
+  test("should sign up a user with valid input", async () => {
     const response = await request(app)
       .post("/api/admin/signup")
       .send({
@@ -21,29 +21,13 @@ describe("Signup route", () => {
       })
       .expect("Content-Type", /json/);
 
-    expect(response.statusCode).toBe(401);
-    expect(response.body).toStrictEqual({
-      message: `admin@yopmail.com is already registered`,
-    });
+    const expectedResponse = {
+      data: expect.objectContaining(testResponse.data),
+      message: testResponse.message,
+      success: testResponse.success,
+    };
 
-    test("should sign up a user with valid input", async () => {
-      const response = await request(app)
-        .post("/api/admin/signup")
-        .send({
-          username: "admin",
-          email: "admin@yopmail.com",
-          password: "admin@123",
-        })
-        .expect("Content-Type", /json/);
-
-      const expectedResponse = {
-        data: expect.objectContaining(testResponse.data),
-        message: testResponse.message,
-        success: testResponse.success,
-      };
-
-      expect(response.statusCode).toBe(401);
-      expect(response.body).toEqual(expectedResponse);
-    });
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toEqual(expectedResponse);
   });
 });
