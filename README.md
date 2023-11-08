@@ -1,29 +1,3 @@
-# Folder structure
+# How to Create Issue
 
-- Role based operations are separated into respective folders.
-- like admin related task are structure in admin folder (controller, models)
-
-# API end point
-
-**/api/auth/register -> POST**
-
-```json
-{
-  "username": "",
-  "email": "",
-  "password": "",
-  "role": ""
-}
-```
-
----
-
-**/api/auth/login -> POST**
-
-```json
-{
-  "email": "",
-  "password": "",
-  "role": ""
-}
-```
+<iframe src="https://scribehow.com/embed/How_to_Create_a_New_Issue_on_GitHub__QlwOl9YZQYatfKg--sPvNg" width="100%" height="640" allowfullscreen frameborder="0"></iframe>
