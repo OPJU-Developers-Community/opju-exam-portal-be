@@ -1,16 +1,14 @@
-name: Bug Report
-description: File a bug report
-title: "[Bug]: "
-labels: ["bug", "todo"]
-projects: ["OEP"]
+name: Refactor Report
+description: File a refactor update
+title: "[refactor]: "
+labels: ["refactor", "todo"]
 body:
   - type: textarea
     id: description
     attributes:
-      label: Bug description
-      description: A small description of the issue.
-      placeholder: Tell us what you see!
-      value: "A bug happened!"
+      label: refactor description
+      description: Describe what you want to refactor and why it's better than the previous version.
+      value: "A refactor request!"
     validations:
       required: true
   - type: checkboxes

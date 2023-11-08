@@ -1,0 +1,21 @@
+name: Bug Report
+description: File a bug report
+title: "[Bug]: "
+labels: ["bug", "todo"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug description
+      description: A small description of the issue.
+      value: "A bug happened!"
+    validations:
+      required: true
+  - type: checkboxes
+    id: note
+    attributes:
+      label: Checklist
+      description:
+      options:
+        - label: Before submitting a PR, execute any associated test cases to help diagnose issues more effectively.
+          required: true
