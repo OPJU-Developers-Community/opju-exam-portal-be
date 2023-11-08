@@ -1,5 +1,5 @@
 name: Bug Report
-description: File a bug report
+description: Fixes a bug or error in the codebase.
 title: "[Bug]: "
 labels: ["bug", "todo"]
 body:
@@ -8,7 +8,7 @@ body:
     attributes:
       label: Bug description
       description: A small description of the issue.
-      value: "A bug happened!"
+      value: "Describe..."
     validations:
       required: true
   - type: checkboxes
