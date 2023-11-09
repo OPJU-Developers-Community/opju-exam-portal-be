@@ -7,21 +7,21 @@ async function addUserToDB(req, res, data, model, validate) {
   if (error) return res.status(400).json({ message: error.details[0].message });
 
   const {
-    email,
+    first_name,
+    last_name = "",
+    email_id,
     password,
-    firstname,
-    lastname = "",
-    profilePic = "",
-    access,
+    profile_pic = "",
+    subject_access,
   } = value;
 
   try {
     // check the user existence
-    const existingUser = await model.findOne({ email });
+    const existingUser = await model.findOne({ email_id });
     if (existingUser) {
       return res
         .status(401)
-        .json({ message: `${email.toLowerCase()} is already exits` });
+        .json({ message: `${email_id.toLowerCase()} is already exits` });
     }
 
     // No existing user found
@@ -29,13 +29,13 @@ async function addUserToDB(req, res, data, model, validate) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = new model({
-      email,
+      first_name,
+      last_name,
+      email_id,
       password: hashedPassword,
-      firstname,
-      lastname,
-      profilePic,
-      access,
-      role: type,
+      profile_pic,
+      subject_access,
+      user_type: type,
     });
 
     await newUser.save();
@@ -44,11 +44,11 @@ async function addUserToDB(req, res, data, model, validate) {
     const response = {
       message: "User created successfully",
       data: {
-        email: newUser.email,
-        firstname: newUser.firstname,
-        lastname: newUser.lastname,
-        profilePic: newUser.profilePic,
-        access: newUser.access,
+        first_name: newUser.first_name,
+        last_name: newUser.last_name,
+        email_id: newUser.email_id,
+        profile_pic: newUser.profile_pic,
+        subject_access: newUser.subject_access,
       },
     };
 
@@ -73,7 +73,7 @@ async function getUsersFromDB(req, res, model) {
       res.status(200).json({ success: true, ...response });
 
     } else {
-      const users = await model.find({ role: type }).select("-password");
+      const users = await model.find({ user_type: type }).select("-password");
   
       // create a object for response to client
       const response = {
