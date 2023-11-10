@@ -12,17 +12,17 @@ async function adminSignup(req, res) {
 
   if (error) return res.status(400).json({ message: error.details[0].message });
 
-  const { username, email, password } = value;
+  const { username, email_id, password } = value;
 
   try {
     // check user is already exits
-    const existingUser = await AdminAuth.findOne({ email });
+    const existingUser = await AdminAuth.findOne({ email_id });
 
     if (existingUser) {
       // function get terminate after return statement
       return res
         .status(401)
-        .json({ message: `${email} is already registered` });
+        .json({ message: `${email_id} is already registered` });
     }
 
     // No existing user found
@@ -32,7 +32,7 @@ async function adminSignup(req, res) {
     // create a new user
     const newUser = new AdminAuth({
       username,
-      email,
+      email_id,
       password: hashedPassword,
     });
     await newUser.save();
@@ -56,7 +56,7 @@ async function adminSignup(req, res) {
       message: "Signup successfully",
       data: {
         username: newUser.username,
-        email: newUser.email,
+        email_id: newUser.email_id,
         token,
       },
     };
@@ -75,14 +75,14 @@ async function adminLogin(req, res) {
 
   if (error) return res.status(400).json({ message: error.details[0].message });
 
-  const { email, password } = value;
+  const { email_id, password } = value;
 
   try {
-    const existingUser = await AdminAuth.findOne({ email });
+    const existingUser = await AdminAuth.findOne({ email_id });
 
     // function get terminate after return statement
     if (!existingUser)
-      return res.status(401).json({ message: `${email} not found` });
+      return res.status(401).json({ message: `${email_id} not found` });
 
     const isPasswordValid = await bcrypt.compare(
       password,
@@ -108,7 +108,7 @@ async function adminLogin(req, res) {
       message: "Logged in successfully",
       data: {
         username: existingUser.username,
-        email: existingUser.email,
+        email_id: existingUser.email_id,
         token,
       },
     };

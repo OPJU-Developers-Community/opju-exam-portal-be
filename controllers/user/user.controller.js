@@ -28,10 +28,10 @@ function registerUser(req, res) {
 }
 
 function loginUser(req, res) {
-  const { email, password, role } = req.body;
+  const { email_id, password, role } = req.body;
 
   // checking availability of every field
-  if (!(email && password && role)) {
+  if (!(email_id && password && role)) {
     return res.status(400).json({ message: "All fields are required" });
   }
 

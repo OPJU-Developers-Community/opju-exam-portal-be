@@ -8,7 +8,7 @@ const problemSetterSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    email: {
+    email_id: {
       type: String,
       unique: true,
       required: true,
@@ -33,7 +33,7 @@ const ProblemSetter = mongoose.model("problem_setter", problemSetterSchema);
 const validateProblemSetter = (problemSetter) => {
   const schema = Joi.object({
     username: Joi.string().min(3).max(126).required(),
-    email: Joi.string().email().required(),
+    email_id: Joi.string().email_id().required(),
     password: Joi.string().min(6).required(),
     role: Joi.string().required(),
   });

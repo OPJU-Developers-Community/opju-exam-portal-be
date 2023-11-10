@@ -8,7 +8,7 @@ const adminAuthSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    email: {
+    email_id: {
       type: String,
       unique: true,
       required: true,
@@ -29,7 +29,7 @@ const AdminAuth = mongoose.model("admin_auth", adminAuthSchema);
 const validateAdminSignup = (reqBody) => {
   const schema = Joi.object({
     username: Joi.string().min(3).max(126).required(),
-    email: Joi.string().email().required(),
+    email_id: Joi.string().email_id().required(),
     password: Joi.string().min(6).required(),
   });
 
@@ -39,7 +39,7 @@ const validateAdminSignup = (reqBody) => {
 // Joi validation
 const validateAdminLogin = (reqBody) => {
   const schema = Joi.object({
-    email: Joi.string().email().required(),
+    email_id: Joi.string().email_id().required(),
     password: Joi.string().min(6).required(),
   });
 

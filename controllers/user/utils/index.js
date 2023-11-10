@@ -3,11 +3,11 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 const registerUserInDatabase = async (userModel, user, res) => {
-  const { username, email, password, role } = user;
+  const { username, email_id, password, role } = user;
 
   try {
     // check user is already exits
-    const existingUser = await userModel.findOne({ email });
+    const existingUser = await userModel.findOne({ email_id });
 
     if (existingUser) {
       // function get terminate after return statement
@@ -23,7 +23,7 @@ const registerUserInDatabase = async (userModel, user, res) => {
     // create a new user
     const newUser = new userModel({
       username,
-      email,
+      email_id,
       password: hashedPassword,
       role,
     });
@@ -36,11 +36,11 @@ const registerUserInDatabase = async (userModel, user, res) => {
 };
 
 const generateUserToken = async (userModel, user, res) => {
-  const { email, password, role } = user;
+  const { email_id, password, role } = user;
 
   try {
     // checking existence of user in database
-    const existingUser = await userModel.findOne({ email });
+    const existingUser = await userModel.findOne({ email_id });
 
     // if user not exit
     if (!existingUser) {
@@ -82,7 +82,7 @@ const generateUserToken = async (userModel, user, res) => {
     // create a user object for response to client
     const user = {
       username: existingUser.username,
-      email: existingUser.email,
+      email_id: existingUser.email_id,
       role: existingUser.role,
     };
 

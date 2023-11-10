@@ -6,7 +6,7 @@ const studentSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    email: {
+    email_id: {
       type: String,
       required: true,
     },
@@ -28,7 +28,7 @@ const facultySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    email: {
+    email_id: {
       type: String,
       required: true,
     },

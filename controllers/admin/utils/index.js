@@ -13,6 +13,7 @@ async function addUserToDB(req, res, data, model, validate) {
     password,
     profile_pic = "",
     subject_access,
+    user_type,
   } = value;
 
   try {
@@ -35,7 +36,7 @@ async function addUserToDB(req, res, data, model, validate) {
       password: hashedPassword,
       profile_pic,
       subject_access,
-      user_type: type,
+      user_type,
     });
 
     await newUser.save();
@@ -43,27 +44,24 @@ async function addUserToDB(req, res, data, model, validate) {
     // create a object for response to client
     const response = {
       message: "User created successfully",
-      data: {
-        first_name: newUser.first_name,
-        last_name: newUser.last_name,
-        email_id: newUser.email_id,
-        profile_pic: newUser.profile_pic,
-        subject_access: newUser.subject_access,
-      },
+      data: newUser,
     };
 
-    res.status(200).json({ success: true, ...response });
+    res.status(201).json({ success: true, ...response });
   } catch (err) {
+    console.log(err);
     return res.status(500).json("Internal Server Error!");
   }
 }
 
 async function getUsersFromDB(req, res, model) {
-  const { type } = req.query;
+  const { type, page, limit } = req.query;
+
+  const skipAmount = page*limit - limit;
 
   try {
     if (type === "all") {
-      const users = await model.find({}).select("-password");
+      const users = await model.find({}).skip(skipAmount).limit(limit).select("-password").sort("createdAt");
       
       const response = {
         message: "success",
@@ -73,7 +71,7 @@ async function getUsersFromDB(req, res, model) {
       res.status(200).json({ success: true, ...response });
 
     } else {
-      const users = await model.find({ user_type: type }).select("-password");
+      const users = await model.find({ user_type: type }).skip(skipAmount).limit(limit).select("-password").sort("createdAt");
   
       // create a object for response to client
       const response = {

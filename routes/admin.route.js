@@ -22,8 +22,8 @@ router.post("/signup", adminSignup);
 router.post("/login", adminLogin);
 
 // {DEV_DOMAIN}:{PORT}/api/admin/user-management
-router.route("/add-user").post(addUser);
-router.route("/get-user").get(getUser);
+router.post("/create-user", addUser);
+router.get("/get-user", getUser);
 
 // {DEV_DOMAIN}:{PORT}/api/admin/education-management
 router

@@ -47,6 +47,7 @@ const validateAssesmentCoordinator = (reqBody) => {
     password: Joi.string().min(6).required(),
     profile_Pic: Joi.string(),
     subject_access: Joi.array().items(Joi.string().required()).min(1).required(),
+    user_type: Joi.string(),
   });
 
   return schema.validate(reqBody);

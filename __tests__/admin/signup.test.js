@@ -11,7 +11,7 @@ describe("Signup route", () => {
   test("should sign up a user - 201 OK", async () => {
     const testData = {
       data: {
-        email: "admin@yopmail.com",
+        email_id: "admin@yopmail.com",
         username: "admin",
       },
       message: "Signup successfully",
@@ -22,7 +22,7 @@ describe("Signup route", () => {
       .post("/api/admin/signup")
       .send({
         username: "admin",
-        email: "admin@yopmail.com",
+        email_id: "admin@yopmail.com",
         password: "admin@123",
       })
       .expect("Content-Type", /json/);
@@ -40,7 +40,7 @@ describe("Signup route", () => {
   test("should not sign up a user if user exist already - 401", async () => {
     const testData = {
       username: "admin",
-      email: "admin@yopmail.com",
+      email_id: "admin@yopmail.com",
       password: "admin@123",
     };
 
@@ -50,7 +50,7 @@ describe("Signup route", () => {
       .post("/api/admin/signup")
       .send({
         username: "admin",
-        email: "admin@yopmail.com",
+        email_id: "admin@yopmail.com",
         password: "admin@123",
       })
       .expect("Content-Type", /json/);
