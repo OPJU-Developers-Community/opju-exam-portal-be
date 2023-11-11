@@ -4,7 +4,11 @@ const mongoose = require("mongoose");
 // schema define
 const adminAuthSchema = new mongoose.Schema(
   {
-    username: {
+    first_name: {
+      type: String,
+      required: true,
+    },
+    last_name: {
       type: String,
       required: true,
     },
@@ -17,6 +21,10 @@ const adminAuthSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    profile_picture:{
+        type :String ,
+
+    }
   },
   { timestamps: true }
 );
@@ -27,12 +35,14 @@ const AdminAuth = mongoose.model("admin_auth", adminAuthSchema);
 
 // Joi validation
 const validateAdminSignup = (reqBody) => {
+  // console.log(reqBody);
   const schema = Joi.object({
-    username: Joi.string().min(3).max(126).required(),
+    first_name: Joi.string().min(1).max(126).required(),
+    last_name: Joi.string().min(1).max(126).required(),
     email: Joi.string().email().required(),
     password: Joi.string().min(6).required(),
   });
-
+  
   return schema.validate(reqBody);
 };
 

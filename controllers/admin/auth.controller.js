@@ -8,12 +8,21 @@ const {
 } = require("../../models/admin/auth.model");
 
 async function adminSignup(req, res) {
-  const { value, error } = validateAdminSignup(req.body);
+
+  const [first_name,...last_nameParts] = req.body.full_name.split(' '); // const name  = full_name.split(' ')
+  const last_name = last_nameParts.join(' ');
+  const data = {
+    first_name,
+    last_name,
+    email:req.body.email,
+    password: req.body.password,
+  };
+  const { value, error } = validateAdminSignup(data);
 
   if (error) return res.status(400).json({ message: error.details[0].message });
 
-  const { username, email, password } = value;
-
+  // const { first_name, lastName, email, password } = value; 
+  const { email, password } = value;
   try {
     // check user is already exits
     const existingUser = await AdminAuth.findOne({ email });
@@ -31,7 +40,8 @@ async function adminSignup(req, res) {
 
     // create a new user
     const newUser = new AdminAuth({
-      username,
+      first_name,
+      last_name,
       email,
       password: hashedPassword,
     });
@@ -41,7 +51,7 @@ async function adminSignup(req, res) {
     const token = jwt.sign(
       {
         userId: newUser._id,
-        username: newUser.username,
+        full_name: `${newUser.first_name} ${newUser.last_name}`,
       },
       process.env.SECRET_KEY
     );
@@ -55,7 +65,8 @@ async function adminSignup(req, res) {
     const response = {
       message: "Signup successfully",
       data: {
-        username: newUser.username,
+        first_name: newUser.first_name ,
+        last_name: newUser.last_name,
         email: newUser.email,
         token,
       },
@@ -95,7 +106,7 @@ async function adminLogin(req, res) {
     const token = jwt.sign(
       {
         userId: existingUser._id,
-        username: existingUser.username,
+        full_name: `${existingUser.first_name} ${existingUser.last_name}`,
       },
       process.env.SECRET_KEY
     );
@@ -107,7 +118,7 @@ async function adminLogin(req, res) {
     const response = {
       message: "Logged in successfully",
       data: {
-        username: existingUser.username,
+        full_name: `${existingUser.first_name} ${existingUser.last_name}`,
         email: existingUser.email,
         token,
       },
