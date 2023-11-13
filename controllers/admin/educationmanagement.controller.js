@@ -1,9 +1,8 @@
 const {
-  education,
-  validateEducationRequestBody,
-} = require("../../models/admin/education.model");
+  educationManagementUniversity,
+  validateUniversityEducationRequestBody,
+} = require("../../models/admin/educationmanagement.model");
 
-// POST
 function createEducation(req, res) {
   const { type } = req.query;
   const data = req.body;
@@ -13,9 +12,24 @@ function createEducation(req, res) {
       createEducationForUniversity(
         res,
         data,
-        education,
-        validateEducationRequestBody
+        educationManagementUniversity,
+        validateUniversityEducationRequestBody
       );
+      break;
+    case "school":
+      createEducationForSchool();
+      break;
+    default:
+      return res.status(400).json({ message: `Invalid ${type} query` });
+  }
+}
+
+function getEducation(req, res) {
+  const { type } = req.query;
+
+  switch (type) {
+    case "university":
+      getEducationListForUniversity(res, educationManagementUniversity);
       break;
     case "school":
       createEducationForSchool();
@@ -36,28 +50,13 @@ async function createEducationForUniversity(res, data, model, validatorFn) {
 
     // create a object for response to client
     const response = {
-      message: "you have successfully created an education.",
+      message: "Education created successfully",
+      data: [],
     };
 
-    res.status(201).json({ success: true, ...response });
+    res.status(200).json({ success: true, ...response });
   } catch (err) {
     return res.status(500).json("Internal Server Error!");
-  }
-}
-
-// GET
-function getEducation(req, res) {
-  const { type } = req.query;
-
-  switch (type) {
-    case "university":
-      getEducationListForUniversity(res, educationManagementUniversity);
-      break;
-    case "school":
-      createEducationForSchool();
-      break;
-    default:
-      return res.status(400).json({ message: `Invalid ${type} query` });
   }
 }
 
