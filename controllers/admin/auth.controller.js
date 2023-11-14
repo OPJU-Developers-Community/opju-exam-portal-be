@@ -62,7 +62,7 @@ async function adminSignup(req, res) {
     };
 
     res
-      .status(200)
+      .status(201)
       .cookie("set_token", token, options)
       .json({ success: true, ...response });
   } catch (err) {
