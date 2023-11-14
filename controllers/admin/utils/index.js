@@ -2,7 +2,6 @@ const bcrypt = require("bcrypt");
 
 async function addUserToDB(req, res, data, model, validate) {
   const { value, error } = validate(data);
-  const { type } = req.query;
 
   if (error) return res.status(400).json({ message: error.details[0].message });
 
@@ -60,28 +59,35 @@ async function getUsersFromDB(req, res, model) {
   const skipAmount = page*limit - limit;
 
   try {
-    if (type === "all") {
-      const users = await model.find({}).skip(skipAmount).limit(limit).select("-password").sort("createdAt");
+    switch (type) {
+      case "all":
+        const users = await model.find({}).skip(skipAmount).limit(limit).select("-password").sort("createdAt");
       
-      const response = {
-        message: "success",
-        data: users,
-      }
+        const response = {
+          message: "success",
+          data: users,
+        }
 
-      res.status(200).json({ success: true, ...response });
-
-    } else {
-      const users = await model.find({ user_type: type }).skip(skipAmount).limit(limit).select("-password").sort("createdAt");
+        return res.status(200).json({ success: true, ...response });
+      
+      case "question_setter":
+      case "question_verifier":
+      case "examiner":
+         const users1 = await model.find({ user_type: type }).skip(skipAmount).limit(limit).select("-password").sort("createdAt");
   
-      // create a object for response to client
-      const response = {
-        message: "success",
-        data: users,
-      };
+        // create a object for response to client
+        const response1 = {
+          message: "success",
+          data: users1,
+        };
   
-      res.status(200).json({ success: true, ...response });
+        return res.status(200).json({ success: true, ...response1 });
+      
+      default:
+        return res.status(400).json({ message: `Invalid ${type} query` });
     }
   } catch (err) {
+    console.log(err);
     return res.status(500).json("Internal Server Error!");
   }
 }

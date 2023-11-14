@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Joi = require("joi");
 
 // schema define
-const assesmentCoordinatorSchema = new mongoose.Schema(
+const assessmentCoordinatorSchema = new mongoose.Schema(
   {
     first_name: {
       type: String,
@@ -36,10 +36,10 @@ const assesmentCoordinatorSchema = new mongoose.Schema(
 
 // create model based on schema
 // assign a name which can be use to access that model
-const AssesmentCoordinator = mongoose.model("assesment_coordinator", assesmentCoordinatorSchema);
+const AssessmentCoordinator = mongoose.model("assessment_coordinator", assessmentCoordinatorSchema);
 
 // Joi validation
-const validateAssesmentCoordinator = (reqBody) => {
+const validateAssessmentCoordinator = (reqBody) => {
   const schema = Joi.object({
     first_name: Joi.string().min(3).max(126).required(),
     last_name: Joi.string().min(3),
@@ -54,6 +54,6 @@ const validateAssesmentCoordinator = (reqBody) => {
 };
 
 module.exports = {
-  AssesmentCoordinator,
-  validateAssesmentCoordinator,
+  AssessmentCoordinator,
+  validateAssessmentCoordinator,
 };
