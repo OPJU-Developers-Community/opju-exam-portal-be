@@ -4,9 +4,9 @@ const {
   adminLogin,
 } = require("../controllers/admin/auth.controller");
 const {
-  addUser,
-  getUser,
-} = require("../controllers/admin/usermanagement.controller");
+  addAssessmentCoordinator,
+  getAssessmentCoordinator,
+} = require("../controllers/admin/assessmentCoordinator.controller");
 const optionsController = require("../controllers/admin/educationType.controller");
 const {
   createEducation,
@@ -22,8 +22,37 @@ router.post("/signup", adminSignup);
 // {DEV_DOMAIN}:{PORT}/api/admin/login
 router.post("/login", adminLogin);
 
-// {DEV_DOMAIN}:{PORT}/api/admin/user-management
-router.route("/user-management").post(addUser).get(getUser);
+/**
+ * @description Create Assessment Coordinator
+ * @route POST /create-assessment-coordinator
+ * @access Private
+ * 
+ * @requestBody {Object}
+ * @property {string} first_name
+ * @property {string} last_name
+ * @property {string} email_id
+ * @property {string} password
+ * @property {string} profile_pic
+ * @property {array{string}} subject_access
+ * @property {string} user_type
+ * 
+ * @return {object} A Response having status code and a message
+ */
+
+router.post("/create-assessment-coordinator", addAssessmentCoordinator);
+
+/**
+ * @description Get list assessment coordinator
+ * @route GET /get-assessment-coordinator
+ * @access Private
+ * 
+ * @param {string} type - Type of assessment coordinator
+ * @param {number} page - Page number for pagination
+ * @param {number} limit - The number of items per page in the list
+ * 
+ * @return {object} Response having status code, message and data (number of items per page in the list)
+ */
+router.get("/get-assessment-coordinator", getAssessmentCoordinator);
 
 
 /**
