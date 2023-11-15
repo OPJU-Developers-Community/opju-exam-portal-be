@@ -47,11 +47,14 @@ async function createEducationForUniversity(res, data, model, validatorFn) {
 
 // GET
 function getEducation(req, res) {
-  const { type } = req.query;
+  let { type, page, limit } = req.query;
+
+  page = Number(page) || 1;
+  limit = Number(limit) || 10;
 
   switch (type) {
     case "university":
-      getEducationListForUniversity(res, educationManagementUniversity);
+      getEducationListForUniversity(res, education, page, limit);
       break;
     case "school":
       createEducationForSchool();
@@ -61,13 +64,29 @@ function getEducation(req, res) {
   }
 }
 
-async function getEducationListForUniversity(res, model) {
+async function getEducationListForUniversity(res, model, page, limit) {
+  
+  /**
+   * page = 1
+   * limit = 10
+   * 
+   * then as per the formula
+   * 1 - 1 * 10 = 0
+   * 
+   * the list is start from 0 
+   * 
+   * and .limit(limit) where limit is 10
+   * i.e start from 0 and ending at 10
+   */
+  const skipAmount = (page - 1) * limit;
+
   try {
-    const educationList = await model.find({});
+    const educationList = await model.find({}).skip(skipAmount).limit(limit);
 
     // create a object for response to client
     const response = {
       message: "success",
+      count: educationList.length,
       data: educationList,
     };
 
