@@ -17,9 +17,32 @@ const router = express.Router();
 
 // {DEV_DOMAIN}:{PORT}/api/admin/signup
 router.post("/signup", adminSignup);
-
+/**
+ * @description Register a new admin user
+ * @route POST /admin-signup
+ * @access Public
+ * 
+ * @requestBody {Object}
+ * @property {string} name - name of the admin
+ * @property {string} email - Email address for the admin
+ * @property {string} password - Password for the admin
+ * 
+ * @return {object} Response with status code, success flag, and user data if successful
+ */
 // {DEV_DOMAIN}:{PORT}/api/admin/login
 router.post("/login", adminLogin);
+/**
+ * @description Authenticate and log in an admin user
+ * @route POST /admin-login
+ * @access Public
+ * 
+ * @requestBody {Object}
+ * @property {string} email - Email address of the admin
+ * @property {string} password - Password for the admin
+ * 
+ * @return {object} Response with status code, success flag, and user data with token if successful
+ */
+
 
 // {DEV_DOMAIN}:{PORT}/api/admin/user-management
 router.route("/user-management").post(addUser).get(getUser);

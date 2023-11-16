@@ -8,8 +8,9 @@ const {
 } = require("../../models/admin/auth.model");
 
 async function adminSignup(req, res) {
-
-  const [first_name,...last_nameParts] = req.body.full_name.split(' '); // const name  = full_name.split(' ')
+  // Extracting the first name and the rest of the names from the 'name' property in the request body
+  const [first_name,...last_nameParts] = req.body.name.split(' '); 
+  // Joining the remaining parts of the name back together to reconstruct the last name
   const last_name = last_nameParts.join(' ');
   const data = {
     first_name,
@@ -21,7 +22,6 @@ async function adminSignup(req, res) {
 
   if (error) return res.status(400).json({ message: error.details[0].message });
 
-  // const { first_name, lastName, email, password } = value; 
   const { email, password } = value;
   try {
     // check user is already exits
@@ -51,7 +51,7 @@ async function adminSignup(req, res) {
     const token = jwt.sign(
       {
         userId: newUser._id,
-        full_name: `${newUser.first_name} ${newUser.last_name}`,
+        name: `${newUser.first_name} ${newUser.last_name}`,
       },
       process.env.SECRET_KEY
     );
@@ -106,7 +106,7 @@ async function adminLogin(req, res) {
     const token = jwt.sign(
       {
         userId: existingUser._id,
-        full_name: `${existingUser.first_name} ${existingUser.last_name}`,
+        name: `${existingUser.first_name} ${existingUser.last_name}`,
       },
       process.env.SECRET_KEY
     );
@@ -118,7 +118,7 @@ async function adminLogin(req, res) {
     const response = {
       message: "Logged in successfully",
       data: {
-        full_name: `${existingUser.first_name} ${existingUser.last_name}`,
+        name: `${existingUser.first_name} ${existingUser.last_name}`,
         email: existingUser.email,
         token,
       },
