@@ -65,16 +65,15 @@ function getEducation(req, res) {
 }
 
 async function getEducationListForUniversity(res, model, page, limit) {
-  
   /**
    * page = 1
    * limit = 10
-   * 
+   *
    * then as per the formula
    * 1 - 1 * 10 = 0
-   * 
-   * the list is start from 0 
-   * 
+   *
+   * the list is start from 0
+   *
    * and .limit(limit) where limit is 10
    * i.e start from 0 and ending at 10
    */
@@ -82,11 +81,12 @@ async function getEducationListForUniversity(res, model, page, limit) {
 
   try {
     const educationList = await model.find({}).skip(skipAmount).limit(limit);
+    const count = await model.countDocuments({});
 
     // create a object for response to client
     const response = {
       message: "success",
-      count: educationList.length,
+      count,
       data: educationList,
     };
 
