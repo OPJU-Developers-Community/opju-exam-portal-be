@@ -3,6 +3,8 @@ const {
   validateEducationRequestBody,
 } = require("../../models/admin/education.model");
 
+const EDUCATION_TYPES = ["all", "university", "school"];
+
 // POST
 function createEducation(req, res) {
   const { type } = req.query;
@@ -46,25 +48,16 @@ async function createEducationForUniversity(res, data, model, validatorFn) {
 }
 
 // GET
-function getEducation(req, res) {
+async function getEducation(req, res) {
   let { type, page, limit } = req.query;
 
   page = Number(page) || 1;
   limit = Number(limit) || 10;
 
-  switch (type) {
-    case "university":
-      getEducationListForUniversity(res, education, page, limit);
-      break;
-    case "school":
-      createEducationForSchool();
-      break;
-    default:
-      return res.status(400).json({ message: `Invalid ${type} query` });
+  if (!EDUCATION_TYPES.includes(type)) {
+    return res.status(400).json({ message: `Invalid ${type} query` });
   }
-}
 
-async function getEducationListForUniversity(res, model, page, limit) {
   /**
    * page = 1
    * limit = 10
@@ -80,8 +73,11 @@ async function getEducationListForUniversity(res, model, page, limit) {
   const skipAmount = (page - 1) * limit;
 
   try {
-    const educationList = await model.find({}).skip(skipAmount).limit(limit);
-    const count = await model.countDocuments({});
+    const educationList = await education
+      .find({ education_type: type })
+      .skip(skipAmount)
+      .limit(limit);
+    const count = await education.countDocuments({ education_type: type });
 
     // create a object for response to client
     const response = {
