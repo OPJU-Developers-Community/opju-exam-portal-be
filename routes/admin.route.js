@@ -16,10 +16,31 @@ const getOptions = require("../controllers/admin/educationType.controller");
 
 const router = express.Router();
 
-// {DEV_DOMAIN}:{PORT}/api/admin/signup
+/**
+ * @description Register a new user as admin
+ * @route POST /signup
+ * @access Public
+ *
+ * @requestBody {Object}
+ * @property {string} name - name of the admin
+ * @property {string} email - Email address for the admin
+ * @property {string} password - Password for the admin
+ *
+ * @return {object} Response with status code, success flag, and user data if successful
+ */
 router.post("/signup", adminSignup);
 
-// {DEV_DOMAIN}:{PORT}/api/admin/login
+/**
+ * @description Authenticate and log in an admin user
+ * @route POST /login
+ * @access Public
+ *
+ * @requestBody {Object}
+ * @property {string} email - Email address of the admin
+ * @property {string} password - Password for the admin
+ *
+ * @return {object} Response with status code, success flag, and user data with token if successful
+ */
 router.post("/login", adminLogin);
 
 // {DEV_DOMAIN}:{PORT}/api/admin/user-management
