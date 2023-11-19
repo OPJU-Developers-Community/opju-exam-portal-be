@@ -71,35 +71,18 @@ async function getUsersFromDB(req, res, model) {
   try {
     const skipAmount = page * limit - limit;
 
-    if (type !== "all") {
-      const users = await model
-        .find({ user_type: type })
-        .skip(skipAmount)
-        .limit(limit)
-        .select("-password")
-        .sort("createdAt");
-
-      // create a object for response to client
-      const response = {
-        message: "success",
-        count: users.length,
-        data: users,
-      };
-
-      return res.status(200).json({ success: true, ...response });
-    }
-
-    // if type is all then return all entries
     const users = await model
-      .find({})
+      .find({ user_type: type })
       .skip(skipAmount)
       .limit(limit)
       .select("-password")
       .sort("createdAt");
+    const count = await model.countDocuments({ user_type: type });
 
+    // create a object for response to client
     const response = {
       message: "success",
-      count: users.length,
+      count,
       data: users,
     };
 
