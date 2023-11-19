@@ -12,7 +12,7 @@ const {
   createEducation,
   getEducation,
 } = require("../controllers/admin/education.controller");
-const getOptions = require("../controllers/admin/educationType.controller");
+// const getOptions = require("../controllers/admin/educationType.controller");
 
 const router = express.Router();
 
