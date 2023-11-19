@@ -4,7 +4,14 @@ const Joi = require("joi");
 // schema define
 const assesmentCoordinatorSchema = new mongoose.Schema(
   {
-    email: {
+    first_name: {
+      type: String,
+      required: true,
+    },
+    last_name: {
+      type: String,
+    },
+    email_id: {
       type: String,
       unique: true,
       required: true,
@@ -13,20 +20,13 @@ const assesmentCoordinatorSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    firstname: {
-      type: String,
-      required: true,
-    },
-    lastname: {
+    profile_pic: {
       type: String,
     },
-    profilePic: {
-      type: String,
-    },
-    access: {
+    subject_access: {
       type: Array,
     },
-    role: {
+    user_type: {
       type: String,
       required: true,
     },
@@ -36,17 +36,24 @@ const assesmentCoordinatorSchema = new mongoose.Schema(
 
 // create model based on schema
 // assign a name which can be use to access that model
-const AssesmentCoordinator = mongoose.model("assesment_coordinator", assesmentCoordinatorSchema);
+const AssesmentCoordinator = mongoose.model(
+  "assesment_coordinator",
+  assesmentCoordinatorSchema
+);
 
 // Joi validation
 const validateAssesmentCoordinator = (reqBody) => {
   const schema = Joi.object({
-    email: Joi.string().email().required(),
+    first_name: Joi.string().min(3).max(126).required(),
+    last_name: Joi.string().min(3),
+    email_id: Joi.string().email().required(),
     password: Joi.string().min(6).required(),
-    firstname: Joi.string().min(3).max(126).required(),
-    lastname: Joi.string().min(3),
-    profilePic: Joi.string(),
-    access: Joi.array().items(Joi.string().required()).min(1).required(),
+    profile_pic: Joi.string(),
+    subject_access: Joi.array()
+      .items(Joi.string().required())
+      .min(1)
+      .required(),
+    user_type: Joi.string().required(),
   });
 
   return schema.validate(reqBody);

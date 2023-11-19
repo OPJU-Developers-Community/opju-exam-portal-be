@@ -1,27 +1,29 @@
 const bcrypt = require("bcrypt");
 
-async function addUserToDB(req, res, data, model, validate) {
+const USER_TYPES = ["question_setter", "question_verifier", "examiner", "all"];
+
+async function addUserToDB(res, data, model, validate) {
   const { value, error } = validate(data);
-  const { type } = req.query;
 
   if (error) return res.status(400).json({ message: error.details[0].message });
 
   const {
-    email,
+    first_name,
+    last_name = "",
+    email_id,
     password,
-    firstname,
-    lastname = "",
-    profilePic = "",
-    access,
+    profile_pic = "",
+    subject_access,
+    user_type,
   } = value;
 
   try {
     // check the user existence
-    const existingUser = await model.findOne({ email });
+    const existingUser = await model.findOne({ email_id });
     if (existingUser) {
       return res
         .status(401)
-        .json({ message: `${email.toLowerCase()} is already exits` });
+        .json({ message: `${email_id.toLowerCase()} is already exits` });
     }
 
     // No existing user found
@@ -29,13 +31,13 @@ async function addUserToDB(req, res, data, model, validate) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = new model({
-      email,
+      first_name,
+      last_name,
+      email_id,
       password: hashedPassword,
-      firstname,
-      lastname,
-      profilePic,
-      access,
-      role: type,
+      profile_pic,
+      subject_access,
+      user_type,
     });
 
     await newUser.save();
@@ -44,45 +46,64 @@ async function addUserToDB(req, res, data, model, validate) {
     const response = {
       message: "User created successfully",
       data: {
-        email: newUser.email,
-        firstname: newUser.firstname,
-        lastname: newUser.lastname,
-        profilePic: newUser.profilePic,
-        access: newUser.access,
+        first_name: newUser.first_name,
+        last_name: newUser.last_name,
+        email_id: newUser.email_id,
+        profile_pic: newUser.profile_pic,
+        subject_access: newUser.subject_access,
+        user_type: newUser.user_type,
       },
     };
 
-    res.status(200).json({ success: true, ...response });
+    res.status(201).json({ success: true, ...response });
   } catch (err) {
     return res.status(500).json("Internal Server Error!");
   }
 }
 
 async function getUsersFromDB(req, res, model) {
-  const { type } = req.query;
+  const { type, page, limit } = req.query;
+
+  if (!USER_TYPES.includes(type)) {
+    return res.status(400).json({ message: `Invalid ${type} query` });
+  }
 
   try {
-    if (type === "all") {
-      const users = await model.find({}).select("-password");
-      
-      const response = {
-        message: "success",
-        data: users,
-      }
+    const skipAmount = page * limit - limit;
 
-      res.status(200).json({ success: true, ...response });
+    if (type !== "all") {
+      const users = await model
+        .find({ user_type: type })
+        .skip(skipAmount)
+        .limit(limit)
+        .select("-password")
+        .sort("createdAt");
 
-    } else {
-      const users = await model.find({ role: type }).select("-password");
-  
       // create a object for response to client
       const response = {
         message: "success",
+        count: users.length,
         data: users,
       };
-  
-      res.status(200).json({ success: true, ...response });
+
+      return res.status(200).json({ success: true, ...response });
     }
+
+    // if type is all then return all entries
+    const users = await model
+      .find({})
+      .skip(skipAmount)
+      .limit(limit)
+      .select("-password")
+      .sort("createdAt");
+
+    const response = {
+      message: "success",
+      count: users.length,
+      data: users,
+    };
+
+    return res.status(200).json({ success: true, ...response });
   } catch (err) {
     return res.status(500).json("Internal Server Error!");
   }
