@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
+require("dotenv").config();
 
 function DBConnect() {
   mongoose
-    .connect("mongodb://127.0.0.1:27017/opju-exam-portal", {
+    .connect(process.env.ATLAS_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })
