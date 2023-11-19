@@ -36,7 +36,10 @@ const assesmentCoordinatorSchema = new mongoose.Schema(
 
 // create model based on schema
 // assign a name which can be use to access that model
-const AssesmentCoordinator = mongoose.model("assesment_coordinator", assesmentCoordinatorSchema);
+const AssesmentCoordinator = mongoose.model(
+  "assesment_coordinator",
+  assesmentCoordinatorSchema
+);
 
 // Joi validation
 const validateAssesmentCoordinator = (reqBody) => {
@@ -46,8 +49,11 @@ const validateAssesmentCoordinator = (reqBody) => {
     email_id: Joi.string().email().required(),
     password: Joi.string().min(6).required(),
     profile_pic: Joi.string(),
-    subject_access: Joi.array().items(Joi.string().required()).min(1).required(),
-    user_type: Joi.string(),
+    subject_access: Joi.array()
+      .items(Joi.string().required())
+      .min(1)
+      .required(),
+    user_type: Joi.string().required(),
   });
 
   return schema.validate(reqBody);
