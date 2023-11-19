@@ -2,13 +2,13 @@ const Joi = require("joi");
 const mongoose = require("mongoose");
 
 // schema define
-const educationManagementSchema = new mongoose.Schema(
+const educationSchema = new mongoose.Schema(
   {
-    program_name: {
+    program: {
       type: String,
       required: true,
     },
-    course_name: {
+    course: {
       type: String,
       required: true,
     },
@@ -17,11 +17,15 @@ const educationManagementSchema = new mongoose.Schema(
       required: true,
     },
     semester: {
-      type: String,
+      type: Number,
       required: true,
     },
     subjects: {
       type: Array,
+      required: true,
+    },
+    education_type: {
+      type: String,
       required: true,
     },
   },
@@ -30,24 +34,22 @@ const educationManagementSchema = new mongoose.Schema(
 
 // create model based on schema
 // assign a name which can be use to access that model
-const educationManagementUniversity = mongoose.model(
-  "education_management_university",
-  educationManagementSchema
-);
+const education = mongoose.model("education", educationSchema);
 
-const validateUniversityEducationRequestBody = (reqBody) => {
+const validateEducationRequestBody = (reqBody) => {
   const schema = Joi.object({
-    program_name: Joi.string().max(126).required(),
-    course_name: Joi.string().max(126).required(),
+    program: Joi.string().max(126).required(),
+    course: Joi.string().max(126).required(),
     branch: Joi.string(),
-    semester: Joi.string(),
+    semester: Joi.number(),
     subjects: Joi.array().items(Joi.string().required()).min(1).required(),
+    education_type: Joi.string().required(),
   });
 
   return schema.validate(reqBody);
 };
 
 module.exports = {
-  educationManagementUniversity,
-  validateUniversityEducationRequestBody,
+  education,
+  validateEducationRequestBody,
 };
