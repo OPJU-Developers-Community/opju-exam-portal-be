@@ -20,10 +20,9 @@ const adminAuthSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    profile_pic:{
-        type :String ,
-
-    }
+    profile_pic: {
+      type: String,
+    },
   },
   { timestamps: true }
 );
@@ -38,10 +37,10 @@ const validateAdminSignup = (reqBody) => {
     first_name: Joi.string().min(1).max(126).required(),
     last_name: Joi.string().min(0).max(126),
     email: Joi.string().email().required(),
-    password: Joi.string().min(6).required(), 
+    password: Joi.string().min(6).required(),
   });
-  
-  return schema.validate(reqBody , { allowUnknown: true });
+
+  return schema.validate(reqBody);
 };
 
 // Joi validation

@@ -1,8 +1,9 @@
 const {
-  educationManagementUniversity,
-  validateUniversityEducationRequestBody,
-} = require("../../models/admin/educationmanagement.model");
+  education,
+  validateEducationRequestBody,
+} = require("../../models/admin/education.model");
 
+// POST
 function createEducation(req, res) {
   const { type } = req.query;
   const data = req.body;
@@ -12,24 +13,9 @@ function createEducation(req, res) {
       createEducationForUniversity(
         res,
         data,
-        educationManagementUniversity,
-        validateUniversityEducationRequestBody
+        education,
+        validateEducationRequestBody
       );
-      break;
-    case "school":
-      createEducationForSchool();
-      break;
-    default:
-      return res.status(400).json({ message: `Invalid ${type} query` });
-  }
-}
-
-function getEducation(req, res) {
-  const { type } = req.query;
-
-  switch (type) {
-    case "university":
-      getEducationListForUniversity(res, educationManagementUniversity);
       break;
     case "school":
       createEducationForSchool();
@@ -50,23 +36,57 @@ async function createEducationForUniversity(res, data, model, validatorFn) {
 
     // create a object for response to client
     const response = {
-      message: "Education created successfully",
-      data: [],
+      message: "you have successfully created an education.",
     };
 
-    res.status(200).json({ success: true, ...response });
+    res.status(201).json({ success: true, ...response });
   } catch (err) {
     return res.status(500).json("Internal Server Error!");
   }
 }
 
-async function getEducationListForUniversity(res, model) {
+// GET
+function getEducation(req, res) {
+  let { type, page, limit } = req.query;
+
+  page = Number(page) || 1;
+  limit = Number(limit) || 10;
+
+  switch (type) {
+    case "university":
+      getEducationListForUniversity(res, education, page, limit);
+      break;
+    case "school":
+      createEducationForSchool();
+      break;
+    default:
+      return res.status(400).json({ message: `Invalid ${type} query` });
+  }
+}
+
+async function getEducationListForUniversity(res, model, page, limit) {
+  
+  /**
+   * page = 1
+   * limit = 10
+   * 
+   * then as per the formula
+   * 1 - 1 * 10 = 0
+   * 
+   * the list is start from 0 
+   * 
+   * and .limit(limit) where limit is 10
+   * i.e start from 0 and ending at 10
+   */
+  const skipAmount = (page - 1) * limit;
+
   try {
-    const educationList = await model.find({});
+    const educationList = await model.find({}).skip(skipAmount).limit(limit);
 
     // create a object for response to client
     const response = {
       message: "success",
+      count: educationList.length,
       data: educationList,
     };
 

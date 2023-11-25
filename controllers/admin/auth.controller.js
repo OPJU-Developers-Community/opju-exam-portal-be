@@ -9,13 +9,13 @@ const {
 
 async function adminSignup(req, res) {
   // Extracting the first name and the rest of the names from the 'name' property in the request body
-  const [first_name,...last_nameParts] = req.body.name.split(' '); 
+  const [first_name, ...last_nameParts] = req.body.name.split(" ");
   // Joining the remaining parts of the name back together to reconstruct the last name
-  const last_name = last_nameParts.join(' ');
+  const last_name = last_nameParts.join(" ");
   const data = {
     first_name,
     last_name,
-    email:req.body.email,
+    email: req.body.email,
     password: req.body.password,
   };
   const { value, error } = validateAdminSignup(data);
@@ -65,8 +65,7 @@ async function adminSignup(req, res) {
     const response = {
       message: "Signup successfully",
       data: {
-        first_name: newUser.first_name ,
-        last_name: newUser.last_name,
+        name: `${newUser.first_name} ${newUser.last_name}`,
         email: newUser.email,
         token,
       },
@@ -126,7 +125,7 @@ async function adminLogin(req, res) {
     res
       .status(200)
       .cookie("set_token", token, options)
-      .json({ success: true, response });
+      .json({ success: true, ...response });
   } catch (err) {
     return res.status(500).json({ message: "Failed to login user", err });
   }

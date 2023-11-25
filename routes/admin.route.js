@@ -9,50 +9,75 @@ const {
 } = require("../controllers/admin/usermanagement.controller");
 const optionsController = require("../controllers/admin/educationType.controller");
 const {
-  createEducation, getEducation,
-} = require("../controllers/admin/educationmanagement.controller");
+  createEducation,
+  getEducation,
+} = require("../controllers/admin/education.controller");
 const getOptions = require("../controllers/admin/educationType.controller");
 
 const router = express.Router();
 
-// {DEV_DOMAIN}:{PORT}/api/admin/signup
-router.post("/signup", adminSignup);
 /**
- * @description Register a new admin user
- * @route POST /admin-signup
+ * @description Register a new user as admin
+ * @route POST /signup
  * @access Public
- * 
+ *
  * @requestBody {Object}
  * @property {string} name - name of the admin
  * @property {string} email - Email address for the admin
  * @property {string} password - Password for the admin
- * 
+ *
  * @return {object} Response with status code, success flag, and user data if successful
  */
-// {DEV_DOMAIN}:{PORT}/api/admin/login
-router.post("/login", adminLogin);
+router.post("/signup", adminSignup);
+
 /**
  * @description Authenticate and log in an admin user
- * @route POST /admin-login
+ * @route POST /login
  * @access Public
- * 
+ *
  * @requestBody {Object}
  * @property {string} email - Email address of the admin
  * @property {string} password - Password for the admin
- * 
+ *
  * @return {object} Response with status code, success flag, and user data with token if successful
  */
-
+router.post("/login", adminLogin);
 
 // {DEV_DOMAIN}:{PORT}/api/admin/user-management
 router.route("/user-management").post(addUser).get(getUser);
 
-// {DEV_DOMAIN}:{PORT}/api/admin/education-management
-router
-  .route("/education-management")
-  .post(createEducation)
-  .get(getEducation);
 
-router.get("/education-type", getOptions);
+/**
+ * @description Create an education for univeristy or school
+ * @route POST /create-education
+ * @access Private
+ * 
+ * @param {string} type - Type of education univeristy or school
+ * 
+ * @requestBody {Object}
+ * @property {string} program
+ * @property {string} course
+ * @property {string} branch
+ * @property {number} semester
+ * @property {array{string}} subjects
+ * 
+ * @return {object} A Response having status code and a message
+ */
+router.post("/create-education", createEducation);
+
+/**
+ * @description Get list of education for universities or schools
+ * @route GET /get-education-list
+ * @access Private
+ * 
+ * @param {string} type - Type of education univeristy or school
+ * @param {number} page - Page number for pagination
+ * @param {number} limit - The number of items per page in the list
+ * 
+ * @return {object} Response having status code, message and data (number of items per page in the list)
+ */
+router.get("/get-education-list", getEducation);
+
+// router.get("/education-type", getOptions);
 
 module.exports = router;
