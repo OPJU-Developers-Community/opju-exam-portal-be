@@ -6,6 +6,7 @@ const {
 const {
   addAssessmentCoordinator,
   getAssessmentCoordinator,
+  deleteAssessmentCoordinator,
 } = require("../controllers/admin/assessmentCoordinator.controller");
 const optionsController = require("../controllers/admin/educationType.controller");
 const {
@@ -75,6 +76,17 @@ router.post("/create-assessment-coordinator", addAssessmentCoordinator);
  */
 router.get("/get-assessment-coordinator", getAssessmentCoordinator);
 
+/**
+ * @description Delete Assessment Coordinator
+ * @route DELETE /assessment-coordinator
+ * @access Private
+ * 
+ * @param {string} userId - Id of assessment coordinator
+ * 
+ * @return {object} A Response having status code and a message
+ */
+
+router.delete("/assessment-coordinator/:userId", deleteAssessmentCoordinator);
 
 /**
  * @description Create an education for univeristy or school

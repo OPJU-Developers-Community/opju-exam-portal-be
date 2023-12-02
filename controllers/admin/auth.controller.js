@@ -76,6 +76,7 @@ async function adminSignup(req, res) {
       .cookie("set_token", token, options)
       .json({ success: true, ...response });
   } catch (err) {
+    console.log(err);
     return res.status(500).json({ message: "Failed to register user", err });
   }
 }

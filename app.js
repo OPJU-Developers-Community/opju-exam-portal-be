@@ -25,6 +25,6 @@ app.use("/api/v1/admin", adminRouter);
 // app.use("/api", programRouter);
 // app.use("/api", questionRouter);
 
-app.listen(PORT || 8000, () => console.log(`Server running on PORT ${PORT}`));
+const server = app.listen(PORT || 8000, () => console.log(`Server running on PORT ${PORT}`));
 
-module.exports = app;
+module.exports = server;

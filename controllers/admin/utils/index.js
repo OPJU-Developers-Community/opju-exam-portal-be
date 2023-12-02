@@ -92,7 +92,37 @@ async function getUsersFromDB(req, res, model) {
   }
 }
 
+async function deleteUserFromDB(req, res, model) {
+  const { userId } = req.params;
+
+  try {
+    const deletedUser = await model.findByIdAndDelete(userId);
+
+    if (!deletedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // create a object for response to client
+    const response = {
+      message: "User deleted successfully",
+      data: {
+        first_name: deletedUser.first_name,
+        last_name: deletedUser.last_name,
+        email_id: deletedUser.email_id,
+        profile_pic: deletedUser.profile_pic,
+        subject_access: deletedUser.subject_access,
+        user_type: deletedUser.user_type,
+      },
+    };
+
+    return res.status(200).json({ success: true, ...response });
+  } catch (err) {
+    return res.status(500).json("Internal Server Error!");
+  }
+}
+
 module.exports = {
   addUserToDB,
   getUsersFromDB,
+  deleteUserFromDB
 };
