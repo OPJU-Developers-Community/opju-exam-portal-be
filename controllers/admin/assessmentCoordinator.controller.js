@@ -1,17 +1,17 @@
 const {
-  AssesmentCoordinator,
-  validateAssesmentCoordinator,
+  AssessmentCoordinator,
+  validateAssessmentCoordinator,
 } = require("../../models/admin/assessmentCoordinator.model");
 const { addUserToDB, getUsersFromDB } = require("./utils");
 
 async function addAssessmentCoordinator(req, res) {
   const data = req.body;
 
-  addUserToDB(res, data, AssesmentCoordinator, validateAssesmentCoordinator);
+  addUserToDB(res, data, AssessmentCoordinator, validateAssessmentCoordinator);
 }
 
 async function getAssessmentCoordinator(req, res) {
-  getUsersFromDB(req, res, AssesmentCoordinator);
+  getUsersFromDB(req, res, AssessmentCoordinator);
 }
 
 module.exports = {
