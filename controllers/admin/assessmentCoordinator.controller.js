@@ -13,19 +13,21 @@ async function addAssessmentCoordinator(req, res) {
 
 async function getAssessmentCoordinator(req, res) {
   getUsersFromDB(req, res, AssessmentCoordinator);
-  getUsersFromDB(req, res, AssessmentCoordinator);
 }
 
 async function deleteAssessmentCoordinator(req, res) {
   
   try {
-    const userId = req.params.userId;
+    const userId = req.body.userId;
+
+    if (!userId) return res.status(401).json({message: `userId not provided`})
+
     if (!ObjectId.isValid(userId)) {
-      return res.status(400).json({message: `${userId} is not a valid ID`});
+      return res.status(401).json({message: `Invalid userId ${userId}`});
     }
     const user = await AssessmentCoordinator.findById(userId);
     if (!user) {
-      return res.status(404).json({message: `User with ID ${userId} does not exsist` });
+      return res.status(404).json({message: `userId ${userId} does not exist`});
     }
     await AssessmentCoordinator.findByIdAndRemove(userId);
     return res.status(200).json({message: `user ${userId} successfully deleted`});

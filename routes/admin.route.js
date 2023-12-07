@@ -78,14 +78,15 @@ router.get("/get-assessment-coordinator", getAssessmentCoordinator);
 
 /**
  * @description delete assessment coordinator
- * @route DELETE /assessment-coordinator/:userId
+ * @route DELETE /assessment-coordinator/
  * @access Private
  * 
- * @param {number} userId - ID of the user
+ * @requestBody {Object}
+ * @property {string} userId
  * 
- * @return {object} Response having status code, message and data (number of items per page in the list)
+ * @return {object} Response having status code and message 
  */
-router.delete("/assessment-coordinator/:userId", deleteAssessmentCoordinator);
+router.delete("/assessment-coordinator", deleteAssessmentCoordinator);
 
 /**
  * @description Create an education for univeristy or school
