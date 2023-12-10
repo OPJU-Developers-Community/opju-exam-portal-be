@@ -1,0 +1,10 @@
+name: Test case request
+title: "test: "
+labels: ["test", "todo"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Test case description
+      description: A small description of the test case.
+      value: "Describe..."
