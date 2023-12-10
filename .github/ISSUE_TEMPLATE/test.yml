@@ -1,4 +1,5 @@
 name: Test case request
+description: Write test cases
 title: "test: "
 labels: ["test", "todo"]
 body:
@@ -8,3 +9,5 @@ body:
       label: Test case description
       description: A small description of the test case.
       value: "Describe..."
+    validations:
+      required: true
