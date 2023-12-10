@@ -5,15 +5,10 @@ function splitFullName(fullName) {
   if (fullName && fullNameArray.length > 1) {
     const [firstNameArray, ...lastNameArray] = fullNameArray;
     firstName = firstNameArray;
-    lastName = lastNameArray.join("");
+    lastName = lastNameArray.join(" ");
   } else {
-    if (fullName == null) {
-      firstName = null;
-      lastName = null;
-    } else {
-      firstName = fullName;
-      lastName = null;
-    }
+    firstName = fullName || null;
+    lastName = null;
   }
 
   return { firstName, lastName };
