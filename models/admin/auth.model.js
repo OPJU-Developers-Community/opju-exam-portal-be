@@ -10,7 +10,6 @@ const adminAuthSchema = new mongoose.Schema(
     },
     last_name: {
       type: String,
-      required: true,
     },
     email: {
       type: String,
@@ -36,7 +35,7 @@ const AdminAuth = mongoose.model("admin", adminAuthSchema);
 const validateAdminSignup = (reqBody) => {
   const schema = Joi.object({
     first_name: Joi.string().min(1).max(126).required(),
-    last_name: Joi.string().min(1).max(126).required(),
+    last_name: Joi.string().min(0).max(126),
     email: Joi.string().email().required(),
     password: Joi.string().min(6).required(),
   });
