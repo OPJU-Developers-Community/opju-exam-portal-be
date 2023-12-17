@@ -1,13 +1,15 @@
 const mongoose = require("mongoose");
 
-function DBConnect() {
-  mongoose
-    .connect("mongodb://127.0.0.1:27017/opju-exam-portal", {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    })
-    .then(() => console.log("DB connected"))
-    .catch((err) => console.log("Failed to connect to MongoDB", err));
+async function DBConnect() {
+  try {
+    const connectionInstance = await mongoose.connect(
+      `${process.env.MONGODB_URI}/${process.env.DB_NAME}`
+    );
+    console.log(`DB CONNECTED, HOST: ${connectionInstance.connection.host}`);
+  } catch (err) {
+    console.log("ERROR IN DB CONNECTION: ", err);
+    process.exit(1);
+  }
 }
 
 module.exports = DBConnect;

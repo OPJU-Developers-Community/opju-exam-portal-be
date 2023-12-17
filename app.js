@@ -1,3 +1,5 @@
+require("dotenv").config({ path: "./env" });
+
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
@@ -9,8 +11,6 @@ const adminRouter = require("./routes/admin.route");
 // const questionRouter = require("./routes/question.route");
 
 const DBConnect = require("./config/mongodb");
-
-const PORT = 8000;
 
 const app = express();
 DBConnect();
@@ -25,6 +25,8 @@ app.use("/api/v1/admin", adminRouter);
 // app.use("/api", programRouter);
 // app.use("/api", questionRouter);
 
-app.listen(PORT || 8000, () => console.log(`Server running on PORT ${PORT}`));
+app.listen(process.env.PORT || 8000, () =>
+  console.log(`Server running on PORT ${process.env.PORT}`)
+);
 
 module.exports = app;
