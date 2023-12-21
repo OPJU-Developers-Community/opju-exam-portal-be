@@ -83,6 +83,7 @@ router.get("/get-assessment-coordinator", getAssessmentCoordinator);
  *
  * @requestBody {Object}
  * @property {string} userId
+ * @property {any} data that going to update
  *
  * @returns {object} Response having status code, message and updated user data.
  */
