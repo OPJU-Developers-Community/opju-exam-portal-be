@@ -78,7 +78,7 @@ router.get("/get-assessment-coordinator", getAssessmentCoordinator);
 
 /**
  * @description Edit assessment coordinator
- * @route POST /edit-assessment-coordinator
+ * @route PATCH /edit-assessment-coordinator
  * @access Private
  *
  * @requestBody {Object}
@@ -86,7 +86,7 @@ router.get("/get-assessment-coordinator", getAssessmentCoordinator);
  *
  * @returns {object} Response having status code, message and updated user data.
  */
-router.post("/edit-assessment-coordinator", updateAssessmentCoordinator);
+router.patch("/edit-assessment-coordinator", updateAssessmentCoordinator);
 
 /**
  * @description Create an education for univeristy or school
